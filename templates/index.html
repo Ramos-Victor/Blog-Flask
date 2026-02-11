@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block titulo %}Artigos • {{ brand_name or "Blog" }}{% endblock %}
+
+{% block content %}
+<section class="flex flex-col gap-6">
+  <header class="flex flex-col gap-2">
+    <h1 class="text-2xl font-semibold tracking-tight">Artigos</h1>
+    <p class="text-zinc-600 max-w-2xl">
+      Conteúdos publicados com foco em clareza, objetividade e boa leitura.
+    </p>
+  </header>
+
+  <div class="grid gap-4">
+    {% if artigos %}
+      {% for a in artigos %}
+        <article class="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm hover:shadow-md transition">
+          <div class="flex flex-col gap-2">
+            <div class="flex items-center justify-between gap-3">
+              <h2 class="text-lg font-semibold leading-snug">
+                <a href="{{ url_for('artigo', artigo_id=a.id) }}" class="hover:underline">
+                  {{ a.titulo }}
+                </a>
+              </h2>
+              <time class="shrink-0 text-xs text-zinc-500">
+                {{ a.publicado_em }}
+              </time>
+            </div>
+
+            {% if a.excerpt %}
+              <p class="text-sm text-zinc-600 leading-relaxed">
+                {{ a.excerpt }}
+              </p>
+            {% else %}
+              <p class="text-sm text-zinc-500 leading-relaxed">
+                Clique para ler o artigo completo.
+              </p>
+            {% endif %}
+
+            <div class="pt-2">
+           <a
+                href="{{ url_for('artigo', artigo_id=a.id) }}"
+                class="inline-flex items-center gap-2 rounded-xl bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition">
+                Ler artigo
+                <span aria-hidden="true">→</span>
+               </a>
+            </div>
+          </div>
+        </article>
+      {% endfor %}
+    {% else %}
+      <div class="rounded-2xl border border-dashed border-zinc-300 bg-white p-8 text-center">
+        <p class="text-zinc-700 font-medium">Nenhum artigo publicado ainda.</p>
+        <p class="text-sm text-zinc-500 mt-1">Quando houver publicações, elas aparecerão aqui.</p>
+      </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
