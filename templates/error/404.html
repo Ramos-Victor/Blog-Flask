@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block titulo %}Artigo não encontrado{% endblock %}
+
+{% block content %}
+<div class="flex items-center justify-center min-h-[60vh]">
+  <div class="bg-white p-8 rounded-2xl shadow-lg text-center max-w-md">
+    <h1 class="text-2xl font-semibold text-red-600 mb-4">
+      Não encontrado.
+    </h1>
+    <p class="text-gray-600 mb-6">
+      Está pagina não existe ou não foi encontrada.
+    </p>
+
+    <a href="{{ url_for('home') }}"
+       class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
+       OK
+    </a>
+  </div>
+</div>
+{% endblock %}

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Novo artigo • Administração{% endblock %}
+{% block titulo %}Novo artigo • Administração{% endblock %}
 
 {% block content %}
 <section class="mx-auto max-w-3xl flex flex-col gap-6">
@@ -9,12 +9,13 @@
     <p class="text-zinc-600">Preencha os campos abaixo para publicar um novo artigo.</p>
   </header>
 
-  <form action="{{ url_for('admin_create') }}" method="post" class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
+  <form method="POST" class="rounded-2xl border border-zinc-200 bg-white p-6 shadow-sm">
     {% if csrf_token %}<input type="hidden" name="csrf_token" value="{{ csrf_token }}">{% endif %}
 
     <div class="grid gap-5">
       <div>
         <label class="block text-sm font-medium text-zinc-800" for="title">Título</label>
+        {{form.titulo.label(class='block text-sm font-medium text-zinc-800')}}
         <input
           id="title"
           name="title"
@@ -22,8 +23,9 @@
           value="{{ form.title if form and form.title is not none else '' }}"
           placeholder="Digite o titulo do artigo"
           class="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900" />
-        {% if form and form.errors and form.errors.title %}
-          <p class="mt-2 text-sm text-rose-600">{{ form.errors.title[0] }}</p>
+          {{form.titulo(class='mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900')}}
+        {% if form and form.errors and form.errors.titulo %}
+          <p class="mt-2 text-sm text-rose-600">{{ form.errors.titulo[0] }}</p>
         {% endif %}
       </div>
 
@@ -35,7 +37,7 @@
           type="date"
           value="{{ form.published_at if form and form.published_at is not none else '' }}"
           class="mt-2 w-full rounded-xl border border-zinc-200 bg-white px-4 py-3 text-sm outline-none focus:border-zinc-900" />
-        {% if form and form.errors and form.errors.published_at %}
+        {% if form and form.errors and form.errors.publicado_em %}
           <p class="mt-2 text-sm text-rose-600">{{ form.errors.published_at[0] }}</p>
         {% endif %}
       </div>

@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% block titulo %}Painel • Administração{% endblock %}
+
+{% block content %}
+<section class="flex flex-col gap-6">
+  <header class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+    <div>
+      <h1 class="text-2xl font-semibold tracking-tight">Painel</h1>
+      <p class="text-zinc-600">Gerencie seus artigos: adicionar, editar e excluir.</p>
+    </div>
+
+    <a
+      href="url_for('') "
+      class="inline-flex items-center justify-center rounded-xl bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition">
+      + Novo artigo
+    </a>
+  </header>
+
+  {% if flash_messages %}
+    <div class="grid gap-2">
+      {% for f in flash_messages %}
+        <div class="rounded-xl border px-4 py-3 text-sm
+                    {% if f.category == 'success' %}border-emerald-200 bg-emerald-50 text-emerald-900
+                    {% elif f.category == 'error' %}border-rose-200 bg-rose-50 text-rose-900
+                    {% else %}border-zinc-200 bg-zinc-50 text-zinc-800{% endif %}">
+          {{ f.message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="rounded-2xl border border-zinc-200 bg-white shadow-sm overflow-hidden">
+    <div class="hidden sm:grid sm:grid-cols-12 bg-zinc-50 px-5 py-3 text-xs font-semibold text-zinc-600">
+      <div class="sm:col-span-7">Título</div>
+      <div class="sm:col-span-3">Publicação</div>
+      <div class="sm:col-span-2 text-right">Ações</div>
+    </div>
+
+    <div class="divide-y divide-zinc-200">
+      {% if artigos and artigos|length > 0 %}
+        {% for a in artigos %}
+          <div class="grid grid-cols-1 sm:grid-cols-12 gap-3 px-5 py-4">
+            <div class="sm:col-span-7">
+              <p class="font-medium text-zinc-900">{{ a.titulo }}</p>
+              <a href=" {{url_for('artigo', artigo_id=a.id)}}" class="text-sm text-zinc-500 hover:underline">
+                Ver no site
+              </a>
+            </div>
+
+            <div class="sm:col-span-3 text-sm text-zinc-600 flex items-center">
+              <span>{{ a.publicado_em }}</span>
+            </div>
+
+            <div class="sm:col-span-2 flex items-center justify-end gap-2">
+              <a
+                href=" url_for('admin_edit', article_id=a.id) "
+                class="rounded-lg border border-zinc-200 bg-white px-3 py-2 text-sm hover:bg-zinc-50 transition">
+                Editar
+              </a>
+
+              <!-- Excluir: POST (ideal). O back-end decide rota/método -->
+              <form action=" url_for('admin_delete', article_id=a.id) " method="post" class="inline">
+                {% if csrf_token %}<input type="hidden" name="csrf_token" value="{{ csrf_token }}">{% endif %}
+                <button
+                  type="submit"
+                  class="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-sm text-rose-700 hover:bg-rose-100 transition"
+                  onclick="return confirm('Tem certeza que deseja excluir este artigo?');">
+                  Excluir
+                </button>
+              </form>
+            </div>
+          </div>
+        {% endfor %}
+      {% else %}
+        <div class="px-5 py-10 text-center">
+          <p class="font-medium text-zinc-800">Nenhum artigo cadastrado.</p>
+          <p class="text-sm text-zinc-500 mt-1">Crie seu primeiro artigo para começar.</p>
+          <div class="mt-4">
+            <a
+              href=" url_for('admin_new') "
+              class="inline-flex items-center justify-center rounded-xl bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-800 transition">
+              + Novo artigo
+            </a>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

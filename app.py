@@ -21,26 +21,33 @@ def __repr__(self):
 db.create_all()
 
 @app.route('/')
-def index():
+def home():
     artigos = Artigos.query.all()
 
     return render_template('index.html',
-                            title = 'index',
-                            brand_name= 'Toni Blog',
+                            titulo = 'Index',
+                            brand_name= 'Victor Blog',
                             now_year= datetime.now().year,
                             artigos=artigos)
 
 @app.route('/admin_dashboard')
 def admin_dashboard():
-    return 'hello'
+    artigos = Artigos.query.all()
+    return render_template('admin/dashboard.html',
+                            titulo = 'DashBoard',
+                            brand_name= 'Victor Blog',
+                            now_year= datetime.now().year,
+                            artigos=artigos)
 
 @app.route('/artigo/<int:artigo_id>')
 def artigo(artigo_id):
-    artigo = artigo.get(artigo_id)
-    if not artigo:
-        return redirect(url_for('index'))
-    return f'<h1>artigos</h1>'
-
+    artigo = Artigos.query.get(artigo_id)
+    if artigo:
+        return render_template('artigo.html', titulo = 'Artigo', brand_name= 'Victor Blog', now_year= datetime.now().year, artigo = artigo)
+    
+@app.errorhandler(404)
+def pagina_nao_encontrada(e):
+    return render_template('error/404.html'), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
