@@ -2,7 +2,7 @@ from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from forms import RegistrarArtigo
-from flask import flash
+from flask import request
 
 app = Flask(__name__)
 
@@ -43,7 +43,7 @@ def admin_dashboard():
                             now_year= datetime.now().year,
                             artigos=artigos)
 
-@app.route('/novo_artigo', methods=['GET','POST'])
+@app.route('/novo_artigo', methods=['POST','GET'])
 def novo_artigo():
     form = RegistrarArtigo()
     if form.validate_on_submit():
@@ -55,7 +55,7 @@ def novo_artigo():
         db.session.add(novo)
         db.session.commit()
         return redirect(url_for('admin_dashboard'))
-    
+
     return render_template(
         'admin/new.html',
         titulo='NovoArtigo',
@@ -77,8 +77,22 @@ def artigo_delete(artigo_id):
     db.session.delete(artigo)
     db.session.commit()
 
-    flash("Artigo excluído com sucesso!", "success")
     return redirect(url_for('admin_dashboard'))
+
+@app.route('/artigo_update/<int:artigo_id>', methods=['POST','GET'])
+def artigo_update(artigo_id):
+    artigo = Artigos.query.get_or_404(artigo_id)
+    form = RegistrarArtigo(obj=artigo)
+    if form.validate_on_submit and request.method == 'POST':
+        artigo.titulo = form.titulo.data
+        artigo.conteudo = form.conteudo.data
+        artigo.publicado_em=datetime.now()
+
+        db.session.commit()
+        return redirect(url_for('admin_dashboard'))
+    
+    return render_template('admin/edit.html', form=form, artigo=artigo)
+
 
 @app.errorhandler(404)
 def pagina_nao_encontrada(e):
