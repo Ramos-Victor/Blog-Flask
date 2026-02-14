@@ -2,6 +2,8 @@
 
 A simple blog project built with **Flask** and **SQLAlchemy**, allowing users to create, list, edit, and delete articles.
 
+This project was created as part of the [**roadmap.sh learning platform**](https://roadmap.sh/projects/task-tracker), focused on practicing:
+
 ---
 
 ## 🚀 Technologies Used
@@ -50,8 +52,8 @@ A simple blog project built with **Flask** and **SQLAlchemy**, allowing users to
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/your-username/your-repository.git
-cd your-repository
+git clone https://github.com/Ramos-Victor/Blog-Flask.git
+cd Blog-Flask
 ```
 
 ### 2️⃣ Create a virtual environment (recommended)
@@ -65,7 +67,7 @@ venv\Scripts\activate     # Windows
 ### 3️⃣ Install dependencies
 
 ```bash
-pip install flask flask_sqlalchemy flask_wtf
+pip install -r requirements.txt
 ```
 
 ### 4️⃣ Run the application
@@ -73,14 +75,6 @@ pip install flask flask_sqlalchemy flask_wtf
 ```bash
 python app.py
 ```
-
-The application will be available at:
-
-```
-http://127.0.0.1:5000
-```
-
----
 
 ## 🧠 Database Model
 
