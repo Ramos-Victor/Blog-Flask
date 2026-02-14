@@ -2,7 +2,7 @@
 
 A simple blog project built with **Flask** and **SQLAlchemy**, allowing users to create, list, edit, and delete articles.
 
-This project was created as part of the [**roadmap.sh learning platform**]([https://roadmap.sh/projects/task-tracker](https://roadmap.sh/projects/personal-blog))
+This project was created as part of the (https://roadmap.sh/projects/personal-blog))
 
 ---
 
