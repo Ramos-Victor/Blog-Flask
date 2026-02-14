@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 from forms import RegistrarArtigo
+from flask import flash
 
 app = Flask(__name__)
 
@@ -69,6 +70,16 @@ def artigo(artigo_id):
     if artigo:
         return render_template('artigo.html', titulo = 'Artigo', brand_name= 'Victor Blog', now_year= datetime.now().year, artigo = artigo)
     
+@app.route('/artigo_delete/<int:artigo_id>', methods=['POST'])
+def artigo_delete(artigo_id):
+    artigo = Artigos.query.get_or_404(artigo_id)
+
+    db.session.delete(artigo)
+    db.session.commit()
+
+    flash("Artigo excluído com sucesso!", "success")
+    return redirect(url_for('admin_dashboard'))
+
 @app.errorhandler(404)
 def pagina_nao_encontrada(e):
     return render_template('error/404.html'), 404
